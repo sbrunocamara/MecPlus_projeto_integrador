@@ -85,9 +85,9 @@ public class MarcasEdit extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nomeEditLabel)
                     .addComponent(marcaDescricaoEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 218, Short.MAX_VALUE)
+                .addGap(89, 89, 89)
                 .addComponent(clienteEditSave)
-                .addGap(91, 91, 91))
+                .addContainerGap(220, Short.MAX_VALUE))
         );
 
         pack();

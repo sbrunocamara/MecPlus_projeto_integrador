@@ -65,13 +65,13 @@ public class MarcasAdd extends javax.swing.JFrame {
                         .addGap(326, 326, 326)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(411, 411, 411)
-                        .addComponent(clienteAddSave))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(191, 191, 191)
                         .addComponent(clienteNomeAddLabel)
                         .addGap(18, 18, 18)
-                        .addComponent(marcaDescricaoAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(marcaDescricaoAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(413, 413, 413)
+                        .addComponent(clienteAddSave)))
                 .addContainerGap(239, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -82,12 +82,10 @@ public class MarcasAdd extends javax.swing.JFrame {
                 .addGap(113, 113, 113)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(clienteNomeAddLabel)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(marcaDescricaoAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(212, 212, 212)
+                    .addComponent(marcaDescricaoAdd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(102, 102, 102)
                 .addComponent(clienteAddSave)
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addContainerGap(193, Short.MAX_VALUE))
         );
 
         pack();
