@@ -1,0 +1,100 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package mecPlus.Controller;
+
+import java.util.ArrayList;
+import mecPlus.Classes.UsuarioClasse;
+import mecPlus.Model.UsuarioModel;
+
+/**
+ *
+ * @author bsbru
+ */
+public class UsuarioController {
+    
+        public boolean newUser(String nome, String email, String senha, String situacao){
+        
+
+        
+        UsuarioClasse usuario = new UsuarioClasse();
+        
+        usuario.setNome(nome);
+        usuario.setEmail(email);
+        usuario.setSenha(senha);
+        usuario.setSituacao(situacao);
+   
+        
+        UsuarioModel usuarioModel =  new UsuarioModel();
+        
+        if(usuarioModel.insert(usuario)){
+            return true;
+        }else{
+            return false;
+        }        
+        
+    }
+    
+    public  ArrayList<UsuarioClasse> select(){
+        
+          UsuarioModel usuarioModel =  new UsuarioModel();
+          ArrayList<UsuarioClasse> usuarios = null;
+          
+          try{
+             usuarios = usuarioModel.select();
+             
+        
+            return usuarios;
+        
+             
+          }catch(Exception e){
+
+          }
+          
+         return usuarios;
+        
+        
+    }
+    
+        public  UsuarioClasse update(UsuarioClasse usuario){
+        
+          UsuarioModel usuarioModel =  new UsuarioModel();
+            
+          
+          try{
+              
+            UsuarioClasse update = usuarioModel.update(usuario);
+             
+        
+            return update;
+        
+             
+          }catch(Exception e){
+
+          }
+          
+         return usuario;
+        
+        
+    }
+    
+    public boolean remove(UsuarioClasse usuario){
+        
+         UsuarioModel usuarioModel =  new UsuarioModel();
+ 
+  
+              
+            boolean remove = usuarioModel.remove(usuario);
+             
+        
+            return remove;
+        
+            
+          
+        
+    }  
+           
+    
+    
+}

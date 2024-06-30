@@ -4,6 +4,12 @@
  */
 package mecPlus.View;
 
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import mecPlus.Classes.ClienteClasse;
+import mecPlus.Controller.ClienteController;
+import mecPlus.Controller.UsuarioController;
+
 /**
  *
  * @author bsbru
@@ -38,8 +44,15 @@ public class ClientesAdd extends javax.swing.JFrame {
         clienteNomeAdd = new javax.swing.JFormattedTextField();
         clienteAddSave = new javax.swing.JButton();
         clienteEnderecoAdd = new javax.swing.JFormattedTextField();
+        clienteEnderecoAddLabel5 = new javax.swing.JLabel();
+        clienteCepAdd = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         clienteEmailAddLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         clienteEmailAddLabel1.setText("Email:");
@@ -69,6 +82,11 @@ public class ClientesAdd extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/add.png"))); // NOI18N
         jLabel1.setText("Novo Cliente");
 
+        try {
+            clienteTelefoneAdd.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)#########")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         clienteTelefoneAdd.setToolTipText("");
         clienteTelefoneAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,48 +121,66 @@ public class ClientesAdd extends javax.swing.JFrame {
             }
         });
 
+        clienteEnderecoAddLabel5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        clienteEnderecoAddLabel5.setText("CEP:");
+
+        try {
+            clienteCepAdd.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        clienteCepAdd.setToolTipText("");
+        clienteCepAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clienteCepAddActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(151, 151, 151)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(326, 326, 326)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(176, 176, 176)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(clienteNomeAddLabel)
+                            .addComponent(clienteEmailAddLabel1)
+                            .addComponent(clienteTelefoneAddLabel3)
+                            .addComponent(clienteCpfAddLabel2)
+                            .addComponent(clienteEnderecoAddLabel4)
+                            .addComponent(clienteEnderecoAddLabel5))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(clienteNomeAdd)
+                            .addComponent(clienteEmailAdd)
+                            .addComponent(clienteTelefoneAdd)
+                            .addComponent(clienteEnderecoAdd)
+                            .addComponent(clienteCpfAdd)
+                            .addComponent(clienteCepAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(235, 235, 235)
-                                .addComponent(clienteAddSave))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(clienteNomeAddLabel)
-                                    .addComponent(clienteEmailAddLabel1)
-                                    .addComponent(clienteTelefoneAddLabel3)
-                                    .addComponent(clienteCpfAddLabel2)
-                                    .addComponent(clienteEnderecoAddLabel4))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(clienteNomeAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(clienteEmailAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(clienteTelefoneAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(clienteCpfAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(clienteEnderecoAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(247, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(157, 157, 157))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(clienteAddSave)
+                                .addGap(224, 224, 224)))))
+                .addContainerGap(150, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(78, 78, 78)
-                .addComponent(jLabel1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
+                        .addGap(187, 187, 187)
                         .addComponent(clienteNomeAddLabel))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addGap(67, 67, 67)
                         .addComponent(clienteNomeAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -154,19 +190,21 @@ public class ClientesAdd extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(clienteTelefoneAddLabel3)
                     .addComponent(clienteTelefoneAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clienteCpfAddLabel2)
+                    .addComponent(clienteCpfAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(clienteEnderecoAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(clienteEnderecoAddLabel4))
-                        .addGap(101, 101, 101)
-                        .addComponent(clienteAddSave))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(clienteCpfAddLabel2)
-                        .addComponent(clienteCpfAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clienteEnderecoAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clienteEnderecoAddLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clienteCepAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clienteEnderecoAddLabel5))
+                .addGap(67, 67, 67)
+                .addComponent(clienteAddSave)
+                .addContainerGap(84, Short.MAX_VALUE))
         );
 
         pack();
@@ -192,12 +230,100 @@ public class ClientesAdd extends javax.swing.JFrame {
     private void clienteAddSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clienteAddSaveActionPerformed
         // TODO add your handling code here:
         
+            if(this.limpaCampo(clienteCpfAdd.getText()).isEmpty()){
+             JOptionPane.showMessageDialog(null, "Documento não informado!");
+             return;
+        }
+        
+           if(this.limpaCampo(clienteCepAdd.getText()).isEmpty()){
+             JOptionPane.showMessageDialog(null, "CEP não informado!");
+             return;
+        }
+           
+              if(this.limpaCampo(clienteTelefoneAdd.getText()).isEmpty()){
+             JOptionPane.showMessageDialog(null, "Telefone não informado!");
+             return;
+        }
+        
+            if(this.limpaCampo(clienteNomeAdd.getText()).isEmpty()|| this.limpaCampo(clienteEmailAdd.getText()).isEmpty() ||this.limpaCampo(clienteTelefoneAdd.getText()).isEmpty() || this.limpaCampo(clienteCpfAdd.getText()).isEmpty() || this.limpaCampo(clienteEnderecoAdd.getText()).isEmpty() || this.limpaCampo(clienteCepAdd.getText()).isEmpty()){
+            
+           JOptionPane.showMessageDialog(null, "Dados incompletos!");
+           return;
+            
+        }
+        try{
+            
+            ClienteController clienteController = new ClienteController();
+            
+            boolean insert = clienteController.insert(clienteNomeAdd.getText(),clienteEmailAdd.getText(),clienteEnderecoAdd.getText(),clienteCepAdd.getText(),clienteCpfAdd.getText(),clienteTelefoneAdd.getText());
+      
+            
+            if(insert == false){
+                 JOptionPane.showMessageDialog(null, "Erro ao inserir os dados!");
+            }
+            
+            if(insert == true){
+             JOptionPane.showMessageDialog(null, "Cliente inserido com sucesso!");
+             this.limpaTela(evt);
+             
+
+ 
+            }
+            
+            
+        }catch(Exception e){
+            
+            return;
+        
+    }
+        
      
     }//GEN-LAST:event_clienteAddSaveActionPerformed
 
     private void clienteEnderecoAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clienteEnderecoAddActionPerformed
         // TODO add your handling code here:
+        
+        
+           
     }//GEN-LAST:event_clienteEnderecoAddActionPerformed
+
+     
+    private String limpaCampo(String campo){
+        
+      String campoLimpo = campo.replaceAll("[()\\-_\\.]", "");
+      
+      String retorno = "";
+      
+      
+        for (int i = 0; i < campoLimpo.length(); i++) {
+            if (campoLimpo.charAt(i) != ' ') {
+                retorno = retorno + campoLimpo.charAt(i);
+                
+            }
+              
+            }
+            
+            
+    
+        return retorno;
+        
+    }
+    private void clienteCepAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clienteCepAddActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clienteCepAddActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        
+            
+        ClienteController  clienteController = new ClienteController();
+        ArrayList<ClienteClasse> carregaClientes = clienteController.select();
+        
+         Clientes clientesTela =  new Clientes(carregaClientes);
+        clientesTela.setVisible(true);
+        
+        
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
@@ -233,15 +359,28 @@ public class ClientesAdd extends javax.swing.JFrame {
             }
         });
     }
+    
+        private void limpaTela(java.awt.event.ActionEvent evt){
+        
+        clienteNomeAdd.setText("");
+        clienteEmailAdd.setText("");
+        clienteEnderecoAdd.setText("");
+        clienteCpfAdd.setText("");
+        clienteCepAdd.setText("");
+        clienteTelefoneAdd.setText("");
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton clienteAddSave;
+    private javax.swing.JFormattedTextField clienteCepAdd;
     private javax.swing.JFormattedTextField clienteCpfAdd;
     private javax.swing.JLabel clienteCpfAddLabel2;
     private javax.swing.JFormattedTextField clienteEmailAdd;
     private javax.swing.JLabel clienteEmailAddLabel1;
     private javax.swing.JFormattedTextField clienteEnderecoAdd;
     private javax.swing.JLabel clienteEnderecoAddLabel4;
+    private javax.swing.JLabel clienteEnderecoAddLabel5;
     private javax.swing.JFormattedTextField clienteNomeAdd;
     private javax.swing.JLabel clienteNomeAddLabel;
     private javax.swing.JFormattedTextField clienteTelefoneAdd;

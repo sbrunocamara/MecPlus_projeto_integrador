@@ -194,8 +194,8 @@ public class Servicos extends javax.swing.JFrame {
 
     private void ServicoEditButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ServicoEditButtonMouseClicked
         // TODO add your handling code here:
-        ClienteEdit clientesEditTela =  new ClienteEdit();
-        clientesEditTela.setVisible(true);
+//        ClienteEdit clientesEditTela =  new ClienteEdit();
+//        clientesEditTela.setVisible(true);
 
 
     }//GEN-LAST:event_ServicoEditButtonMouseClicked

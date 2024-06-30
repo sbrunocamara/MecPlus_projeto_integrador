@@ -4,7 +4,13 @@
  */
 package mecPlus.View;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import mecPlus.Classes.ClienteClasse;
+import mecPlus.Classes.UsuarioClasse;
+import mecPlus.Controller.ClienteController;
+import mecPlus.Controller.UsuarioController;
 
 /**
  *
@@ -15,8 +21,42 @@ public class Clientes extends javax.swing.JFrame {
     /**
      * Creates new form Clientes
      */
-    public Clientes() {
+    
+    public ArrayList<ClienteClasse> clientes;
+     
+    public Clientes(ArrayList<ClienteClasse> clientes) {
+        
+        
+        this.dispose();
+
         initComponents();
+
+        this.clientes = clientes;
+
+        this.preencheTabela();
+        
+    }
+    
+    
+    public boolean preencheTabela() {
+        DefaultTableModel tableModel = (DefaultTableModel) jTableClientes.getModel();
+        tableModel.setRowCount(0);
+        clientes.forEach((usuario) -> {
+            tableModel.addRow(new Object[]{
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getEmail(),
+                usuario.getEndereco(),
+                usuario.getCep(),
+                usuario.getDocumento(),
+                usuario.getTelefone(),
+
+            });
+
+        });
+        jTableClientes.setModel(tableModel);
+
+        return true;
     }
 
     /**
@@ -37,7 +77,12 @@ public class Clientes extends javax.swing.JFrame {
         ClientesButtonEdit = new javax.swing.JButton();
         ClientesButtonDelete = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -140,18 +185,18 @@ public class Clientes extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(212, 212, 212)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(72, 72, 72)
-                                .addComponent(jLabel1)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton1)
                                 .addGap(18, 18, 18)
                                 .addComponent(ClientesButtonEdit)
                                 .addGap(18, 18, 18)
-                                .addComponent(ClientesButtonDelete))))
+                                .addComponent(ClientesButtonDelete))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(124, 124, 124)
+                                .addComponent(jLabel1)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(67, 67, 67)
                         .addComponent(jPanelFornecedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -160,12 +205,14 @@ public class Clientes extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(72, 72, 72)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(72, 72, 72)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 59, Short.MAX_VALUE)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(19, 19, 19)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(ClientesButtonEdit)
                             .addComponent(ClientesButtonDelete)
@@ -187,6 +234,8 @@ public class Clientes extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         
+        this.dispose();
+        
         ClientesAdd clientesAddTela =  new ClientesAdd();
         clientesAddTela.setVisible(true);
        
@@ -194,8 +243,34 @@ public class Clientes extends javax.swing.JFrame {
 
     private void ClientesButtonEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ClientesButtonEditMouseClicked
         // TODO add your handling code here:
-        ClienteEdit clientesEditTela =  new ClienteEdit();
-        clientesEditTela.setVisible(true);
+                if (jTableClientes.getSelectedRow() < 0) {
+            return;
+
+        }
+
+        Integer id = (Integer) jTableClientes.getModel().getValueAt(jTableClientes.getSelectedRow(), 0);
+        String nome = (String) jTableClientes.getModel().getValueAt(jTableClientes.getSelectedRow(), 1);
+        String email = (String) jTableClientes.getModel().getValueAt(jTableClientes.getSelectedRow(), 2);
+        String endereco = (String) jTableClientes.getModel().getValueAt(jTableClientes.getSelectedRow(), 3);
+        String cep = (String) jTableClientes.getModel().getValueAt(jTableClientes.getSelectedRow(), 4);
+        String documento = (String) jTableClientes.getModel().getValueAt(jTableClientes.getSelectedRow(), 5);
+        String telefone = (String) jTableClientes.getModel().getValueAt(jTableClientes.getSelectedRow(), 6);
+
+        ClienteClasse cliente = new ClienteClasse();
+        
+        cliente.setId(id);
+        cliente.setNome(nome);
+        cliente.setEmail(email);
+        cliente.setEndereco(endereco);
+        cliente.setCep(cep);
+        cliente.setDocumento(documento);
+        cliente.setTelefone(telefone);
+
+        this.dispose();
+        
+        ClienteEdit clientesEditTela =  new ClienteEdit(cliente);
+        clientesEditTela.setVisible(true)
+;
 
 
     }//GEN-LAST:event_ClientesButtonEditMouseClicked
@@ -206,10 +281,52 @@ public class Clientes extends javax.swing.JFrame {
 
     private void ClientesButtonDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ClientesButtonDeleteMouseClicked
         // TODO add your handling code here:
+             if (jTableClientes.getSelectedRow() < 0) {
+            return;
+
+        }
+
+        Integer id = (Integer) jTableClientes.getModel().getValueAt(jTableClientes.getSelectedRow(), 0);
+
+        ClienteClasse cliente = new ClienteClasse();
+        cliente.setId(id);
+        
    int dialogButton = JOptionPane.YES_NO_OPTION;
         int dialogResult = JOptionPane.showConfirmDialog(this, "Você realmente deseja excluir o item selecionado?", "Confirmação", dialogButton);
+        
+        
+           if (dialogResult == 0) {
+               ClienteController clienteController = new ClienteController();
+            boolean remove = clienteController.remove(cliente);
+
+            if (remove == true) {
+                JOptionPane.showMessageDialog(null, "Item removido com sucesso!");
+                this.dispose();
+                this.carregaTela();
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro ao remover o item!");
+            }
+
+        } else {
+
+        }
 
     }//GEN-LAST:event_ClientesButtonDeleteMouseClicked
+
+        public void carregaTela() {
+        ClienteController  clienteController = new ClienteController();
+        ArrayList<ClienteClasse> carregaClientes = clienteController.select();
+        
+         Clientes clientesTela =  new Clientes(carregaClientes);
+        clientesTela.setVisible(true);
+    }
+        
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+//        this.dispose();
+//        Principal principalTela = new Principal();
+//        principalTela.setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

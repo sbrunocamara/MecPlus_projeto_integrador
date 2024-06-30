@@ -4,6 +4,12 @@
  */
 package mecPlus.View;
 
+import java.util.ArrayList;
+import mecPlus.Classes.ClienteClasse;
+import mecPlus.Classes.UsuarioClasse;
+import mecPlus.Controller.ClienteController;
+import mecPlus.Controller.UsuarioController;
+
 /**
  *
  * @author bsbru
@@ -36,6 +42,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu5 = new javax.swing.JMenu();
         ServicosMenuCall = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
+        jMenu8 = new javax.swing.JMenu();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -134,6 +141,19 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenu7);
 
+        jMenu8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/usuario.png"))); // NOI18N
+        jMenu8.setText("Usuarios");
+        jMenu8.setToolTipText("");
+        jMenu8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jMenu8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jMenu8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jMenu8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu8MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu8);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -160,7 +180,10 @@ public class Principal extends javax.swing.JFrame {
     private void ClientesMenuCallMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ClientesMenuCallMouseClicked
         // TODO add your handling code here:
         
-         Clientes clientesTela =  new Clientes();
+        ClienteController  clienteController = new ClienteController();
+        ArrayList<ClienteClasse> carregaClientes = clienteController.select();
+        
+         Clientes clientesTela =  new Clientes(carregaClientes);
         clientesTela.setVisible(true);
     }//GEN-LAST:event_ClientesMenuCallMouseClicked
 
@@ -204,6 +227,17 @@ public class Principal extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenu8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu8MouseClicked
+        // TODO add your handling code here:
+        UsuarioController  usuarioController = new UsuarioController();
+        ArrayList<UsuarioClasse> carregaUsuarios = usuarioController.select();
+
+        
+        Usuarios telaUsuarios = new Usuarios(carregaUsuarios);
+        telaUsuarios.setVisible(true);
+        
+    }//GEN-LAST:event_jMenu8MouseClicked
 
     /**
      * @param args the command line arguments
@@ -250,6 +284,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JFrame jFrame1;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenu jMenu8;
     private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
 }
