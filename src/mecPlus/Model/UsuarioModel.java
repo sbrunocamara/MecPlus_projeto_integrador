@@ -53,6 +53,48 @@ public class UsuarioModel {
        
        
     }
+     
+             public UsuarioClasse autenticaUsuario(String email, String senha){
+        
+        String sql = "select id,nome,email,situacao,senha from usuarios where email='"+email+"' AND senha=MD5('"+senha+"')";
+
+       PreparedStatement pStatement =  null;
+       Connection connection = null;
+       
+       UsuarioClasse usuario = new UsuarioClasse();
+       
+       try{
+           
+           connection = new ConnectionDB().getConnection();
+           pStatement = connection.prepareStatement(sql);
+           ResultSet usuariosSelect = pStatement.executeQuery(sql);
+           
+         
+           
+           if(usuariosSelect.next()){
+ 
+                   usuario.setNome(usuariosSelect.getString("nome"));
+                   usuario.setEmail(usuariosSelect.getString("email"));
+                   usuario.setSituacao(usuariosSelect.getString("situacao"));
+                   usuario.setId(usuariosSelect.getInt("id"));
+               
+           }
+           
+           
+       }catch(SQLException e){
+            e.printStackTrace();
+       }finally{
+           try{
+           if(pStatement != null){pStatement.close();}
+           }catch(SQLException e){
+            e.printStackTrace();
+           
+       }
+       }
+          
+       return usuario;
+        
+    }
     
     public ArrayList<UsuarioClasse> select(){
         

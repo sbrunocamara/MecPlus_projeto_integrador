@@ -57,6 +57,27 @@ public class UsuarioController {
         
     }
     
+            public  UsuarioClasse autenticaUsuario(String email, String senha){
+        
+          UsuarioModel usuarioModel =  new UsuarioModel();
+          UsuarioClasse usuarios = null;
+          
+          try{
+             usuarios = usuarioModel.autenticaUsuario(email,senha);
+             
+        
+            return usuarios;
+        
+             
+          }catch(Exception e){
+
+          }
+          
+         return usuarios;
+        
+        
+    }
+    
         public  UsuarioClasse update(UsuarioClasse usuario){
         
           UsuarioModel usuarioModel =  new UsuarioModel();
