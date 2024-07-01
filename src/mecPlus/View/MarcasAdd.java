@@ -4,6 +4,12 @@
  */
 package mecPlus.View;
 
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import mecPlus.Classes.MarcasClasse;
+import mecPlus.Controller.ClienteController;
+import mecPlus.Controller.MarcasController;
+
 /**
  *
  * @author bsbru
@@ -32,10 +38,15 @@ public class MarcasAdd extends javax.swing.JFrame {
         clienteAddSave = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/marca.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/add.png"))); // NOI18N
         jLabel1.setText("Nova marca");
 
         clienteNomeAddLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -49,6 +60,11 @@ public class MarcasAdd extends javax.swing.JFrame {
         });
 
         clienteAddSave.setText("Salvar");
+        clienteAddSave.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clienteAddSaveMouseClicked(evt);
+            }
+        });
         clienteAddSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clienteAddSaveActionPerformed(evt);
@@ -62,9 +78,6 @@ public class MarcasAdd extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(326, 326, 326)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(191, 191, 191)
                         .addComponent(clienteNomeAddLabel)
                         .addGap(18, 18, 18)
@@ -73,19 +86,23 @@ public class MarcasAdd extends javax.swing.JFrame {
                         .addGap(413, 413, 413)
                         .addComponent(clienteAddSave)))
                 .addContainerGap(239, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(312, 312, 312))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(78, 78, 78)
+                .addGap(82, 82, 82)
                 .addComponent(jLabel1)
-                .addGap(113, 113, 113)
+                .addGap(109, 109, 109)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(clienteNomeAddLabel)
                     .addComponent(marcaDescricaoAdd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(102, 102, 102)
                 .addComponent(clienteAddSave)
-                .addContainerGap(193, Short.MAX_VALUE))
+                .addContainerGap(205, Short.MAX_VALUE))
         );
 
         pack();
@@ -102,6 +119,61 @@ public class MarcasAdd extends javax.swing.JFrame {
      
     }//GEN-LAST:event_clienteAddSaveActionPerformed
 
+    private void clienteAddSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clienteAddSaveMouseClicked
+        // TODO add your handling code here:
+        
+           
+        
+            if(marcaDescricaoAdd.getText().isEmpty()){
+            
+           JOptionPane.showMessageDialog(null, "Dados incompletos!");
+           return;
+            
+        }
+        try{
+            
+            MarcasController marcaController = new MarcasController();
+            
+            boolean insert = marcaController.insert(marcaDescricaoAdd.getText());
+      
+            
+            if(insert == false){
+                 JOptionPane.showMessageDialog(null, "Erro ao inserir os dados!");
+            }
+            
+            if(insert == true){
+             JOptionPane.showMessageDialog(null, "Marca inserida com sucesso!");
+             this.limpaTela(evt);
+             
+
+ 
+            }
+            
+            
+        }catch(Exception e){
+            
+            return;
+        
+    }
+    }//GEN-LAST:event_clienteAddSaveMouseClicked
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        this.dispose();
+        MarcasController  marcaController = new MarcasController();
+        ArrayList<MarcasClasse> carregaMarcas = marcaController.select();
+        
+        Marcas marcasTela =  new Marcas(carregaMarcas);
+        marcasTela.setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
+
+           private void limpaTela(java.awt.event.MouseEvent evt){
+        
+        marcaDescricaoAdd.setText("");
+
+        
+    }
+    
     /**
      * @param args the command line arguments
      */

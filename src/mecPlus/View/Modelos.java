@@ -4,7 +4,13 @@
  */
 package mecPlus.View;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import mecPlus.Classes.MarcasClasse;
+import mecPlus.Classes.ModelosClasse;
+import mecPlus.Controller.MarcasController;
+import mecPlus.Controller.ModelosController;
 
 /**
  *
@@ -15,10 +21,36 @@ public class Modelos extends javax.swing.JFrame {
     /**
      * Creates new form Clientes
      */
-    public Modelos() {
+    public ArrayList<ModelosClasse> modelos;
+    
+    public Modelos(ArrayList<ModelosClasse> modelos) {
+        
+        this.dispose();
+
         initComponents();
+
+        this.modelos = modelos;
+
+        this.preencheTabela();
+        
+
     }
 
+           public boolean preencheTabela() {
+        DefaultTableModel tableModel = (DefaultTableModel) jTableModelos.getModel();
+        tableModel.setRowCount(0);
+        modelos.forEach((modelo) -> {
+            tableModel.addRow(new Object[]{
+                modelo.getId(),
+                modelo.getDescricao(),
+
+            });
+
+        });
+        jTableModelos.setModel(tableModel);
+
+        return true;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -186,7 +218,7 @@ public class Modelos extends javax.swing.JFrame {
 
     private void ModeloAddButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModeloAddButtonMouseClicked
         // TODO add your handling code here:
-        
+        this.dispose();
         ModelosAdd modelosAddTela =  new ModelosAdd();
         modelosAddTela.setVisible(true);
        
@@ -194,7 +226,23 @@ public class Modelos extends javax.swing.JFrame {
 
     private void ModeloButtonEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModeloButtonEditMouseClicked
         // TODO add your handling code here:
-        ModelosEdit modelosEditTela =  new ModelosEdit();
+        
+                this.dispose();
+        
+                  if (jTableModelos.getSelectedRow() < 0) {
+            return;
+
+        }
+
+        Integer id = (Integer) jTableModelos.getModel().getValueAt(jTableModelos.getSelectedRow(), 0);
+        String descricao = (String) jTableModelos.getModel().getValueAt(jTableModelos.getSelectedRow(), 1);
+        
+        ModelosClasse modelo = new ModelosClasse();
+        
+        modelo.setDescricao(descricao);
+        modelo.setId(id);
+
+        ModelosEdit modelosEditTela =  new ModelosEdit(modelo);
         modelosEditTela.setVisible(true);
 
 
@@ -206,11 +254,45 @@ public class Modelos extends javax.swing.JFrame {
 
     private void ModeloButtonDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModeloButtonDeleteMouseClicked
         // TODO add your handling code here:
+         if (jTableModelos.getSelectedRow() < 0) {
+            return;
+
+        }
+
+        Integer id = (Integer) jTableModelos.getModel().getValueAt(jTableModelos.getSelectedRow(), 0);
+
+        ModelosClasse modelo = new ModelosClasse();
+        modelo.setId(id);
+        
    int dialogButton = JOptionPane.YES_NO_OPTION;
         int dialogResult = JOptionPane.showConfirmDialog(this, "Você realmente deseja excluir o item selecionado?", "Confirmação", dialogButton);
+        
+        
+           if (dialogResult == 0) {
+               ModelosController modeloController = new ModelosController();
+            boolean remove = modeloController.remove(modelo);
+
+            if (remove == true) {
+                JOptionPane.showMessageDialog(null, "Item removido com sucesso!");
+                this.dispose();
+                this.carregaTela();
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro ao remover o item!");
+            }
+
+        } else {
+
+        }
 
     }//GEN-LAST:event_ModeloButtonDeleteMouseClicked
 
+                public void carregaTela() {
+    ModelosController modelosController = new ModelosController();
+        ArrayList<ModelosClasse> carregaModelos = modelosController.select();
+        
+        Modelos modelosTela =  new Modelos(carregaModelos);
+        modelosTela.setVisible(true);
+    }
     /**
      * @param args the command line arguments
      */

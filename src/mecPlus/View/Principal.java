@@ -6,8 +6,12 @@ package mecPlus.View;
 
 import java.util.ArrayList;
 import mecPlus.Classes.ClienteClasse;
+import mecPlus.Classes.MarcasClasse;
+import mecPlus.Classes.ModelosClasse;
 import mecPlus.Classes.UsuarioClasse;
 import mecPlus.Controller.ClienteController;
+import mecPlus.Controller.MarcasController;
+import mecPlus.Controller.ModelosController;
 import mecPlus.Controller.UsuarioController;
 
 /**
@@ -39,7 +43,6 @@ public class Principal extends javax.swing.JFrame {
         VeiculosMenuCall = new javax.swing.JMenu();
         MarcasMenuCall = new javax.swing.JMenu();
         ModelosMenuCall = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
         ServicosMenuCall = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
         jMenu8 = new javax.swing.JMenu();
@@ -111,10 +114,6 @@ public class Principal extends javax.swing.JFrame {
                 ModelosMenuCallMouseClicked(evt);
             }
         });
-
-        jMenu5.setText("Edit");
-        ModelosMenuCall.add(jMenu5);
-
         jMenuBar1.add(ModelosMenuCall);
 
         ServicosMenuCall.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/servico.png"))); // NOI18N
@@ -195,16 +194,20 @@ public class Principal extends javax.swing.JFrame {
 
     private void MarcasMenuCallMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MarcasMenuCallMouseClicked
         // TODO add your handling code here:
+        MarcasController  marcaController = new MarcasController();
+        ArrayList<MarcasClasse> carregaMarcas = marcaController.select();
         
-        Marcas marcasTela =  new Marcas();
+        Marcas marcasTela =  new Marcas(carregaMarcas);
         marcasTela.setVisible(true);
     }//GEN-LAST:event_MarcasMenuCallMouseClicked
 
     private void ModelosMenuCallMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModelosMenuCallMouseClicked
         // TODO add your handling code here:
         
+        ModelosController modelosController = new ModelosController();
+        ArrayList<ModelosClasse> carregaModelos = modelosController.select();
         
-        Modelos modelosTela =  new Modelos();
+        Modelos modelosTela =  new Modelos(carregaModelos);
         modelosTela.setVisible(true);
     }//GEN-LAST:event_ModelosMenuCallMouseClicked
 
@@ -282,7 +285,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu VeiculosMenuCall;
     private javax.swing.JButton jButton1;
     private javax.swing.JFrame jFrame1;
-    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
     private javax.swing.JMenuBar jMenuBar1;

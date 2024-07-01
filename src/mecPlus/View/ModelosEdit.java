@@ -4,6 +4,13 @@
  */
 package mecPlus.View;
 
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import mecPlus.Classes.MarcasClasse;
+import mecPlus.Classes.ModelosClasse;
+import mecPlus.Controller.MarcasController;
+import mecPlus.Controller.ModelosController;
+
 /**
  *
  * @author bsbru
@@ -13,8 +20,15 @@ public class ModelosEdit extends javax.swing.JFrame {
     /**
      * Creates new form ClienteEdit
      */
-    public ModelosEdit() {
+    
+    public ModelosClasse modelos;
+    
+    public ModelosEdit(ModelosClasse modelo) {
         initComponents();
+        
+        modeloDescricaoEdit.setText(modelo.getDescricao());
+        this.modelos = modelo;
+        
     }
 
     /**
@@ -32,6 +46,11 @@ public class ModelosEdit extends javax.swing.JFrame {
         clienteEditSave = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
@@ -49,6 +68,11 @@ public class ModelosEdit extends javax.swing.JFrame {
         });
 
         clienteEditSave.setText("Salvar");
+        clienteEditSave.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clienteEditSaveMouseClicked(evt);
+            }
+        });
         clienteEditSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clienteEditSaveActionPerformed(evt);
@@ -103,6 +127,53 @@ public class ModelosEdit extends javax.swing.JFrame {
 
     }//GEN-LAST:event_clienteEditSaveActionPerformed
 
+    private void clienteEditSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clienteEditSaveMouseClicked
+        // TODO add your handling code here:
+               
+            if(modeloDescricaoEdit.getText().isEmpty()){
+            
+           JOptionPane.showMessageDialog(null, "Dados incompletos!");
+           return;
+            
+        }
+            
+            this.modelos.setDescricao(modeloDescricaoEdit.getText());
+
+        try{
+            
+            ModelosController modeloController = new ModelosController();
+            
+            ModelosClasse update = modeloController.update(this.modelos);
+      
+            
+           if(this.modelos == update){
+             JOptionPane.showMessageDialog(null, "Modelo alterado com sucesso!");
+             this.modelos = update;
+//             this.atualizaTela(evt);
+            
+            }
+            
+            
+        }catch(Exception e){
+            
+            
+            return;
+        
+    }
+    }//GEN-LAST:event_clienteEditSaveMouseClicked
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        
+       this.dispose();
+       
+           ModelosController modelosController = new ModelosController();
+        ArrayList<ModelosClasse> carregaModelos = modelosController.select();
+        
+        Modelos modelosTela =  new Modelos(carregaModelos);
+        modelosTela.setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -140,7 +211,7 @@ public class ModelosEdit extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ModelosEdit().setVisible(true);
+//                new ModelosEdit().setVisible(true);
             }
         });
     }

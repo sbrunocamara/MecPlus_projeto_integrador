@@ -4,7 +4,13 @@
  */
 package mecPlus.View;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import mecPlus.Classes.ClienteClasse;
+import mecPlus.Classes.MarcasClasse;
+import mecPlus.Controller.ClienteController;
+import mecPlus.Controller.MarcasController;
 
 /**
  *
@@ -15,8 +21,20 @@ public class Marcas extends javax.swing.JFrame {
     /**
      * Creates new form Clientes
      */
-    public Marcas() {
+    
+    public ArrayList<MarcasClasse> marcas;
+    
+    public Marcas(ArrayList<MarcasClasse> marcas) {
+        
+        this.dispose();
+
         initComponents();
+
+        this.marcas = marcas;
+
+        this.preencheTabela();
+        
+
     }
 
     /**
@@ -179,6 +197,21 @@ public class Marcas extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+       public boolean preencheTabela() {
+        DefaultTableModel tableModel = (DefaultTableModel) jTableMarcas.getModel();
+        tableModel.setRowCount(0);
+        marcas.forEach((marca) -> {
+            tableModel.addRow(new Object[]{
+                marca.getId(),
+                marca.getDescricao(),
+
+            });
+
+        });
+        jTableMarcas.setModel(tableModel);
+
+        return true;
+    }
     private void jTableMarcasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMarcasMouseClicked
         // TODO add your handling code here:
 
@@ -186,7 +219,7 @@ public class Marcas extends javax.swing.JFrame {
 
     private void MarcaAddButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MarcaAddButtonMouseClicked
         // TODO add your handling code here:
-        
+        this.dispose();
         MarcasAdd marcasAddTela =  new MarcasAdd();
         marcasAddTela.setVisible(true);
        
@@ -194,7 +227,23 @@ public class Marcas extends javax.swing.JFrame {
 
     private void MarcaButtonEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MarcaButtonEditMouseClicked
         // TODO add your handling code here:
-        MarcasEdit marcasEditTela =  new MarcasEdit();
+        
+        this.dispose();
+        
+                  if (jTableMarcas.getSelectedRow() < 0) {
+            return;
+
+        }
+
+        Integer id = (Integer) jTableMarcas.getModel().getValueAt(jTableMarcas.getSelectedRow(), 0);
+        String descricao = (String) jTableMarcas.getModel().getValueAt(jTableMarcas.getSelectedRow(), 1);
+        
+        MarcasClasse marca = new MarcasClasse();
+        
+        marca.setDescricao(descricao);
+        marca.setId(id);
+        
+        MarcasEdit marcasEditTela =  new MarcasEdit(marca);
         marcasEditTela.setVisible(true);
 
 
@@ -206,11 +255,46 @@ public class Marcas extends javax.swing.JFrame {
 
     private void MarcaButtonDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MarcaButtonDeleteMouseClicked
         // TODO add your handling code here:
+       if (jTableMarcas.getSelectedRow() < 0) {
+            return;
+
+        }
+
+        Integer id = (Integer) jTableMarcas.getModel().getValueAt(jTableMarcas.getSelectedRow(), 0);
+
+        MarcasClasse marca = new MarcasClasse();
+        marca.setId(id);
+        
    int dialogButton = JOptionPane.YES_NO_OPTION;
         int dialogResult = JOptionPane.showConfirmDialog(this, "Você realmente deseja excluir o item selecionado?", "Confirmação", dialogButton);
+        
+        
+           if (dialogResult == 0) {
+               MarcasController marcaController = new MarcasController();
+            boolean remove = marcaController.remove(marca);
+
+            if (remove == true) {
+                JOptionPane.showMessageDialog(null, "Item removido com sucesso!");
+                this.dispose();
+                this.carregaTela();
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro ao remover o item!");
+            }
+
+        } else {
+
+        }
+        
 
     }//GEN-LAST:event_MarcaButtonDeleteMouseClicked
 
+            public void carregaTela() {
+        MarcasController  marcaController = new MarcasController();
+        ArrayList<MarcasClasse> carregaMarcas = marcaController.select();
+        
+        Marcas marcasTela =  new Marcas(carregaMarcas);
+        marcasTela.setVisible(true);
+    }
     /**
      * @param args the command line arguments
      */

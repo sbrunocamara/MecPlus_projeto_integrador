@@ -4,6 +4,13 @@
  */
 package mecPlus.View;
 
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import mecPlus.Classes.ClienteClasse;
+import mecPlus.Classes.MarcasClasse;
+import mecPlus.Controller.ClienteController;
+import mecPlus.Controller.MarcasController;
+
 /**
  *
  * @author bsbru
@@ -13,8 +20,15 @@ public class MarcasEdit extends javax.swing.JFrame {
     /**
      * Creates new form ClienteEdit
      */
-    public MarcasEdit() {
+    
+    public MarcasClasse marcas;
+    
+    public MarcasEdit(MarcasClasse marca) {
         initComponents();
+        
+        marcaDescricaoEdit.setText(marca.getDescricao());
+        this.marcas = marca;
+        
     }
 
     /**
@@ -32,6 +46,11 @@ public class MarcasEdit extends javax.swing.JFrame {
         clienteEditSave = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
@@ -49,6 +68,11 @@ public class MarcasEdit extends javax.swing.JFrame {
         });
 
         clienteEditSave.setText("Salvar");
+        clienteEditSave.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clienteEditSaveMouseClicked(evt);
+            }
+        });
         clienteEditSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clienteEditSaveActionPerformed(evt);
@@ -103,6 +127,57 @@ public class MarcasEdit extends javax.swing.JFrame {
 
     }//GEN-LAST:event_clienteEditSaveActionPerformed
 
+    private void clienteEditSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clienteEditSaveMouseClicked
+        // TODO add your handling code here:
+        
+        
+        
+            if(marcaDescricaoEdit.getText().isEmpty()){
+            
+           JOptionPane.showMessageDialog(null, "Dados incompletos!");
+           return;
+            
+        }
+            
+            this.marcas.setDescricao(marcaDescricaoEdit.getText());
+
+        try{
+            
+            MarcasController marcaController = new MarcasController();
+            
+            MarcasClasse update = marcaController.update(this.marcas);
+      
+            
+           if(this.marcas == update){
+             JOptionPane.showMessageDialog(null, "Marca alterado com sucesso!");
+             this.marcas = update;
+//             this.atualizaTela(evt);
+            
+            }
+            
+            
+        }catch(Exception e){
+            
+            
+            return;
+        
+    }
+    }//GEN-LAST:event_clienteEditSaveMouseClicked
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        
+        
+                this.dispose();
+        MarcasController  marcaController = new MarcasController();
+        ArrayList<MarcasClasse> carregaMarcas = marcaController.select();
+        
+        Marcas marcasTela =  new Marcas(carregaMarcas);
+        marcasTela.setVisible(true);
+        
+        
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -136,7 +211,7 @@ public class MarcasEdit extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MarcasEdit().setVisible(true);
+//                new MarcasEdit().setVisible(true);
             }
         });
     }

@@ -4,6 +4,12 @@
  */
 package mecPlus.View;
 
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import mecPlus.Classes.ModelosClasse;
+import mecPlus.Controller.MarcasController;
+import mecPlus.Controller.ModelosController;
+
 /**
  *
  * @author bsbru
@@ -32,6 +38,11 @@ public class ModelosAdd extends javax.swing.JFrame {
         clienteAddSave = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
@@ -49,6 +60,11 @@ public class ModelosAdd extends javax.swing.JFrame {
         });
 
         clienteAddSave.setText("Salvar");
+        clienteAddSave.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clienteAddSaveMouseClicked(evt);
+            }
+        });
         clienteAddSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clienteAddSaveActionPerformed(evt);
@@ -103,6 +119,64 @@ public class ModelosAdd extends javax.swing.JFrame {
      
     }//GEN-LAST:event_clienteAddSaveActionPerformed
 
+    private void clienteAddSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clienteAddSaveMouseClicked
+        // TODO add your handling code here:
+        
+                
+            if(modeloDescricaoAdd.getText().isEmpty()){
+            
+           JOptionPane.showMessageDialog(null, "Dados incompletos!");
+           return;
+            
+        }
+        try{
+            
+            ModelosController modeloController = new ModelosController();
+            
+            boolean insert = modeloController.insert(modeloDescricaoAdd.getText());
+      
+            
+            if(insert == false){
+                 JOptionPane.showMessageDialog(null, "Erro ao inserir os dados!");
+            }
+            
+            if(insert == true){
+             JOptionPane.showMessageDialog(null, "Modelo inserido com sucesso!");
+             this.limpaTela(evt);
+             
+
+ 
+            }
+            
+            
+        }catch(Exception e){
+            
+            return;
+        
+    }
+    }//GEN-LAST:event_clienteAddSaveMouseClicked
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+                
+       this.dispose();
+       
+           ModelosController modelosController = new ModelosController();
+        ArrayList<ModelosClasse> carregaModelos = modelosController.select();
+        
+        Modelos modelosTela =  new Modelos(carregaModelos);
+        modelosTela.setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
+         
+    private void limpaTela(java.awt.event.MouseEvent evt){
+        
+              modeloDescricaoAdd.setText("");
+        
+    }
+        
+  
+
+       
     /**
      * @param args the command line arguments
      */
