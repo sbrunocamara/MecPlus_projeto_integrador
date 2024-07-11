@@ -4,7 +4,13 @@
  */
 package mecPlus.View;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import mecPlus.Classes.ModelosClasse;
+import mecPlus.Classes.VeiculoClasse;
+import mecPlus.Controller.ModelosController;
+import mecPlus.Controller.VeiculoController;
 
 /**
  *
@@ -15,8 +21,38 @@ public class Veiculos extends javax.swing.JFrame {
     /**
      * Creates new form Clientes
      */
-    public Veiculos() {
+    public ArrayList<VeiculoClasse> veiculos;
+
+    public Veiculos(ArrayList<VeiculoClasse> veiculos) {
+
+        this.dispose();
+
         initComponents();
+
+        this.veiculos = veiculos;
+
+        this.preencheTabela();
+
+    }
+
+    public boolean preencheTabela() {
+        DefaultTableModel tableModel = (DefaultTableModel) jTableVeiculos.getModel();
+        tableModel.setRowCount(0);
+        veiculos.forEach((veiculos) -> {
+            tableModel.addRow(new Object[]{
+                veiculos.getId(),
+                veiculos.getMarcaDescricao(),
+                veiculos.getModeloDescricao(),
+                veiculos.getAno(),
+                veiculos.getPlaca(),
+                veiculos.getClienteNome()
+
+            });
+
+        });
+        jTableVeiculos.setModel(tableModel);
+
+        return true;
     }
 
     /**
@@ -186,15 +222,15 @@ public class Veiculos extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        
-        VeiculosAdd veiculosAddTela =  new VeiculosAdd();
+     VeiculoClasse veiculos = new VeiculoClasse();
+        VeiculosAdd veiculosAddTela = new VeiculosAdd(veiculos);
         veiculosAddTela.setVisible(true);
-       
+
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void VeiculosButtonEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VeiculosButtonEditMouseClicked
         // TODO add your handling code here:
-        VeiculosEdit veiculosEditTela =  new VeiculosEdit();
+        VeiculosEdit veiculosEditTela = new VeiculosEdit();
         veiculosEditTela.setVisible(true);
 
 
@@ -206,10 +242,44 @@ public class Veiculos extends javax.swing.JFrame {
 
     private void VeiculosButtonDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VeiculosButtonDeleteMouseClicked
         // TODO add your handling code here:
-   int dialogButton = JOptionPane.YES_NO_OPTION;
+        if (jTableVeiculos.getSelectedRow() < 0) {
+            return;
+
+        }
+
+        Integer id = (Integer) jTableVeiculos.getModel().getValueAt(jTableVeiculos.getSelectedRow(), 0);
+
+        VeiculoClasse veiculo = new VeiculoClasse();
+        veiculo.setId(id);
+
+        int dialogButton = JOptionPane.YES_NO_OPTION;
         int dialogResult = JOptionPane.showConfirmDialog(this, "Você realmente deseja excluir o item selecionado?", "Confirmação", dialogButton);
 
+        if (dialogResult == 0) {
+            VeiculoController veiculoController = new VeiculoController();
+            boolean remove = veiculoController.remove(veiculo);
+
+            if (remove == true) {
+                JOptionPane.showMessageDialog(null, "Item removido com sucesso!");
+                this.dispose();
+                this.carregaTela();
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro ao remover o item!");
+            }
+
+        } else {
+
+        }
+
     }//GEN-LAST:event_VeiculosButtonDeleteMouseClicked
+
+    public void carregaTela() {
+        VeiculoController veiculoController = new VeiculoController();
+        ArrayList<VeiculoClasse> carregaVeiculos = veiculoController.select();
+
+        Veiculos veiculosTela = new Veiculos(carregaVeiculos);
+        veiculosTela.setVisible(true);
+    }
 
     /**
      * @param args the command line arguments
@@ -242,7 +312,7 @@ public class Veiculos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-               
+
             }
         });
     }

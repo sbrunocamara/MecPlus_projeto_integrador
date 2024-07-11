@@ -4,17 +4,57 @@
  */
 package mecPlus.View;
 
+import java.util.ArrayList;
+import mecPlus.Classes.ClienteClasse;
+import mecPlus.Classes.MarcasClasse;
+import mecPlus.Classes.ModelosClasse;
+import mecPlus.Classes.VeiculoClasse;
+import mecPlus.Controller.ClienteController;
+import mecPlus.Controller.MarcasController;
+import mecPlus.Controller.ModelosController;
+import mecPlus.Controller.VeiculoController;
+
 /**
  *
  * @author bsbru
  */
 public class VeiculosAdd extends javax.swing.JFrame {
 
+    public ArrayList<VeiculoClasse> veiculos;
+
     /**
      * Creates new form ClientesAdd
      */
-    public VeiculosAdd() {
+    public VeiculosAdd(VeiculoClasse veiculo) {
+
         initComponents();
+
+        ModelosController modelosController = new ModelosController();
+        ArrayList<ModelosClasse> carregaModelos = modelosController.select();
+
+        for (ModelosClasse c : carregaModelos) {
+
+            jComboBoxModelo.addItem(c.getDescricao() + "_" + c.getId());
+        }
+
+        ClienteController clienteController = new ClienteController();
+        ArrayList<ClienteClasse> carregaClientes = clienteController.select();
+
+        for (ClienteClasse d : carregaClientes) {
+
+            jComboBoxCliente.addItem(d.getNome() + "_" + d.getId());
+
+        }
+
+        MarcasController marcaController = new MarcasController();
+        ArrayList<MarcasClasse> carregaMarcas = marcaController.select();
+
+        for (MarcasClasse e : carregaMarcas) {
+
+            jComboBoxMarca2.addItem(e.getDescricao() + "_" + e.getId());
+
+        }
+
     }
 
     /**
@@ -27,79 +67,81 @@ public class VeiculosAdd extends javax.swing.JFrame {
     private void initComponents() {
 
         clienteEmailAddLabel1 = new javax.swing.JLabel();
-        clienteEmailAdd = new javax.swing.JFormattedTextField();
         clienteCpfAddLabel2 = new javax.swing.JLabel();
-        clienteCpfAdd = new javax.swing.JFormattedTextField();
+        anoVeiculoAdd = new javax.swing.JFormattedTextField();
         clienteTelefoneAddLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        clienteTelefoneAdd = new javax.swing.JFormattedTextField();
+        placaVeiculoAdd = new javax.swing.JFormattedTextField();
         clienteEnderecoAddLabel4 = new javax.swing.JLabel();
         clienteNomeAddLabel = new javax.swing.JLabel();
-        clienteNomeAdd = new javax.swing.JFormattedTextField();
         clienteAddSave = new javax.swing.JButton();
-        clienteEnderecoAdd = new javax.swing.JFormattedTextField();
+        jComboBoxModelo = new javax.swing.JComboBox<>();
+        jComboBoxCliente = new javax.swing.JComboBox<>();
+        jComboBoxMarca2 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         clienteEmailAddLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        clienteEmailAddLabel1.setText("Email:");
-
-        clienteEmailAdd.setToolTipText("");
-        clienteEmailAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clienteEmailAddActionPerformed(evt);
-            }
-        });
+        clienteEmailAddLabel1.setText("Modelo:");
 
         clienteCpfAddLabel2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        clienteCpfAddLabel2.setText("CPF/CNPJ:");
+        clienteCpfAddLabel2.setText("Ano:");
 
-        clienteCpfAdd.setToolTipText("");
-        clienteCpfAdd.addActionListener(new java.awt.event.ActionListener() {
+        anoVeiculoAdd.setToolTipText("");
+        anoVeiculoAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clienteCpfAddActionPerformed(evt);
+                anoVeiculoAddActionPerformed(evt);
             }
         });
 
         clienteTelefoneAddLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        clienteTelefoneAddLabel3.setText("Telefone:");
+        clienteTelefoneAddLabel3.setText("Placa:");
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/motoAdd.png"))); // NOI18N
         jLabel1.setText("Novo Veiculo");
 
-        clienteTelefoneAdd.setToolTipText("");
-        clienteTelefoneAdd.addActionListener(new java.awt.event.ActionListener() {
+        placaVeiculoAdd.setToolTipText("");
+        placaVeiculoAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clienteTelefoneAddActionPerformed(evt);
+                placaVeiculoAddActionPerformed(evt);
             }
         });
 
         clienteEnderecoAddLabel4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        clienteEnderecoAddLabel4.setText("Endereço:");
+        clienteEnderecoAddLabel4.setText("Cliente");
 
         clienteNomeAddLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        clienteNomeAddLabel.setText("Nome:");
-
-        clienteNomeAdd.setToolTipText("");
-        clienteNomeAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clienteNomeAddActionPerformed(evt);
-            }
-        });
+        clienteNomeAddLabel.setText("Marca:");
 
         clienteAddSave.setText("Salvar");
+        clienteAddSave.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clienteAddSaveMouseClicked(evt);
+            }
+        });
         clienteAddSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clienteAddSaveActionPerformed(evt);
             }
         });
 
-        clienteEnderecoAdd.setToolTipText("");
-        clienteEnderecoAdd.addActionListener(new java.awt.event.ActionListener() {
+        jComboBoxModelo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clienteEnderecoAddActionPerformed(evt);
+                jComboBoxModeloActionPerformed(evt);
+            }
+        });
+
+        jComboBoxCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxClienteActionPerformed(evt);
+            }
+        });
+
+        jComboBoxMarca2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxMarca2ActionPerformed(evt);
             }
         });
 
@@ -113,56 +155,51 @@ public class VeiculosAdd extends javax.swing.JFrame {
                         .addGap(326, 326, 326)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(176, 176, 176)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(235, 235, 235)
-                                .addComponent(clienteAddSave))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(clienteNomeAddLabel)
-                                    .addComponent(clienteEmailAddLabel1)
-                                    .addComponent(clienteTelefoneAddLabel3)
-                                    .addComponent(clienteCpfAddLabel2)
-                                    .addComponent(clienteEnderecoAddLabel4))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(clienteNomeAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(clienteEmailAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(clienteTelefoneAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(clienteCpfAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(clienteEnderecoAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(247, Short.MAX_VALUE))
+                        .addGap(193, 193, 193)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(clienteNomeAddLabel)
+                            .addComponent(clienteEmailAddLabel1)
+                            .addComponent(clienteTelefoneAddLabel3)
+                            .addComponent(clienteCpfAddLabel2)
+                            .addComponent(clienteEnderecoAddLabel4))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(placaVeiculoAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+                            .addComponent(anoVeiculoAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+                            .addComponent(jComboBoxModelo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBoxCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBoxMarca2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(411, 411, 411)
+                        .addComponent(clienteAddSave)))
+                .addContainerGap(251, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(78, 78, 78)
                 .addComponent(jLabel1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(clienteNomeAddLabel))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(clienteNomeAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(58, 58, 58)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clienteNomeAddLabel)
+                    .addComponent(jComboBoxMarca2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(clienteEmailAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(clienteEmailAddLabel1))
+                    .addComponent(clienteEmailAddLabel1)
+                    .addComponent(jComboBoxModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(clienteTelefoneAddLabel3)
-                    .addComponent(clienteTelefoneAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(placaVeiculoAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(clienteCpfAddLabel2)
-                    .addComponent(clienteCpfAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(anoVeiculoAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(clienteEnderecoAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(clienteEnderecoAddLabel4))
-                .addGap(106, 106, 106)
+                    .addComponent(clienteEnderecoAddLabel4)
+                    .addComponent(jComboBoxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(109, 109, 109)
                 .addComponent(clienteAddSave)
                 .addContainerGap(83, Short.MAX_VALUE))
         );
@@ -171,31 +208,54 @@ public class VeiculosAdd extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void clienteEmailAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clienteEmailAddActionPerformed
+    private void anoVeiculoAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anoVeiculoAddActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_clienteEmailAddActionPerformed
+    }//GEN-LAST:event_anoVeiculoAddActionPerformed
 
-    private void clienteCpfAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clienteCpfAddActionPerformed
+    private void placaVeiculoAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placaVeiculoAddActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_clienteCpfAddActionPerformed
-
-    private void clienteTelefoneAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clienteTelefoneAddActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clienteTelefoneAddActionPerformed
-
-    private void clienteNomeAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clienteNomeAddActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clienteNomeAddActionPerformed
+    }//GEN-LAST:event_placaVeiculoAddActionPerformed
 
     private void clienteAddSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clienteAddSaveActionPerformed
         // TODO add your handling code here:
-        
-     
+
+
     }//GEN-LAST:event_clienteAddSaveActionPerformed
 
-    private void clienteEnderecoAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clienteEnderecoAddActionPerformed
+    private void jComboBoxModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxModeloActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_clienteEnderecoAddActionPerformed
+    }//GEN-LAST:event_jComboBoxModeloActionPerformed
+
+    private void jComboBoxClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxClienteActionPerformed
+
+    private void jComboBoxMarca2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMarca2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxMarca2ActionPerformed
+
+    private void clienteAddSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clienteAddSaveMouseClicked
+        // TODO add your handling code here:
+
+        Integer indiceUnderlineModelo = jComboBoxModelo.getSelectedItem().toString().indexOf('_');
+        String selecaoModelo = jComboBoxModelo.getSelectedItem().toString().substring(indiceUnderlineModelo + 1);
+
+        Integer indiceUnderlineMarca = jComboBoxMarca2.getSelectedItem().toString().indexOf('_');
+        String selecaoMarca = jComboBoxMarca2.getSelectedItem().toString().substring(indiceUnderlineMarca + 1);
+
+        Integer indiceUnderlineCliente = jComboBoxCliente.getSelectedItem().toString().indexOf('_');
+        String selecaoCliente = jComboBoxCliente.getSelectedItem().toString().substring(indiceUnderlineCliente + 1);
+        
+        String placa = placaVeiculoAdd.getText();
+        String ano = anoVeiculoAdd.getText();
+        
+
+        
+        VeiculoController veiculoController = new VeiculoController();
+        veiculoController.insert( Integer.valueOf(selecaoMarca), Integer.valueOf(selecaoModelo),placa,ano, Integer.valueOf(selecaoCliente));
+
+
+    }//GEN-LAST:event_clienteAddSaveMouseClicked
 
     /**
      * @param args the command line arguments
@@ -228,23 +288,23 @@ public class VeiculosAdd extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VeiculosAdd().setVisible(true);
+//                new VeiculosAdd().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFormattedTextField anoVeiculoAdd;
     private javax.swing.JButton clienteAddSave;
-    private javax.swing.JFormattedTextField clienteCpfAdd;
     private javax.swing.JLabel clienteCpfAddLabel2;
-    private javax.swing.JFormattedTextField clienteEmailAdd;
     private javax.swing.JLabel clienteEmailAddLabel1;
-    private javax.swing.JFormattedTextField clienteEnderecoAdd;
     private javax.swing.JLabel clienteEnderecoAddLabel4;
-    private javax.swing.JFormattedTextField clienteNomeAdd;
     private javax.swing.JLabel clienteNomeAddLabel;
-    private javax.swing.JFormattedTextField clienteTelefoneAdd;
     private javax.swing.JLabel clienteTelefoneAddLabel3;
+    private javax.swing.JComboBox<String> jComboBoxCliente;
+    private javax.swing.JComboBox<String> jComboBoxMarca2;
+    private javax.swing.JComboBox<String> jComboBoxModelo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JFormattedTextField placaVeiculoAdd;
     // End of variables declaration//GEN-END:variables
 }

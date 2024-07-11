@@ -30,33 +30,29 @@
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="176" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="235" max="-2" attributes="0"/>
-                              <Component id="clienteAddSave" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="clienteNomeAddLabel" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="clienteEmailAddLabel1" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="clienteTelefoneAddLabel3" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="clienteCpfAddLabel2" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="clienteEnderecoAddLabel4" alignment="1" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="clienteNomeAdd" alignment="0" min="-2" pref="350" max="-2" attributes="0"/>
-                                  <Component id="clienteEmailAdd" alignment="0" min="-2" pref="350" max="-2" attributes="0"/>
-                                  <Component id="clienteTelefoneAdd" alignment="0" min="-2" pref="350" max="-2" attributes="0"/>
-                                  <Component id="clienteCpfAdd" alignment="0" min="-2" pref="350" max="-2" attributes="0"/>
-                                  <Component id="clienteEnderecoAdd" alignment="0" min="-2" pref="350" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
+                      <EmptySpace min="-2" pref="193" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="clienteNomeAddLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="clienteEmailAddLabel1" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="clienteTelefoneAddLabel3" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="clienteCpfAddLabel2" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="clienteEnderecoAddLabel4" alignment="1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="placaVeiculoAdd" alignment="0" pref="350" max="32767" attributes="0"/>
+                          <Component id="anoVeiculoAdd" alignment="0" pref="350" max="32767" attributes="0"/>
+                          <Component id="jComboBoxModelo" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jComboBoxCliente" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jComboBoxMarca2" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="411" max="-2" attributes="0"/>
+                      <Component id="clienteAddSave" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace pref="247" max="32767" attributes="0"/>
+              <EmptySpace pref="251" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -65,37 +61,32 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                      <Component id="clienteNomeAddLabel" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="clienteNomeAdd" min="-2" max="-2" attributes="0"/>
-                  </Group>
+              <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="clienteNomeAddLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jComboBoxMarca2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="clienteEmailAdd" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="clienteEmailAddLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jComboBoxModelo" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="clienteTelefoneAddLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="clienteTelefoneAdd" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="placaVeiculoAdd" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="clienteCpfAddLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="clienteCpfAdd" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="anoVeiculoAdd" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="clienteEnderecoAdd" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="clienteEnderecoAddLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jComboBoxCliente" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="109" max="-2" attributes="0"/>
               <Component id="clienteAddSave" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="83" max="32767" attributes="0"/>
           </Group>
@@ -108,31 +99,23 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="24" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Email:"/>
+        <Property name="text" type="java.lang.String" value="Modelo:"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JFormattedTextField" name="clienteEmailAdd">
-      <Properties>
-        <Property name="toolTipText" type="java.lang.String" value=""/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clienteEmailAddActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="clienteCpfAddLabel2">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="24" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="CPF/CNPJ:"/>
+        <Property name="text" type="java.lang.String" value="Ano:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="clienteCpfAdd">
+    <Component class="javax.swing.JFormattedTextField" name="anoVeiculoAdd">
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clienteCpfAddActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="anoVeiculoAddActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="clienteTelefoneAddLabel3">
@@ -140,7 +123,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="24" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Telefone:"/>
+        <Property name="text" type="java.lang.String" value="Placa:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
@@ -157,12 +140,12 @@
         <Property name="text" type="java.lang.String" value="Novo Veiculo"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="clienteTelefoneAdd">
+    <Component class="javax.swing.JFormattedTextField" name="placaVeiculoAdd">
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clienteTelefoneAddActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="placaVeiculoAddActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="clienteEnderecoAddLabel4">
@@ -170,7 +153,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="24" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Endere&#xe7;o:"/>
+        <Property name="text" type="java.lang.String" value="Cliente"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="clienteNomeAddLabel">
@@ -178,32 +161,56 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="24" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Nome:"/>
+        <Property name="text" type="java.lang.String" value="Marca:"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JFormattedTextField" name="clienteNomeAdd">
-      <Properties>
-        <Property name="toolTipText" type="java.lang.String" value=""/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clienteNomeAddActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="clienteAddSave">
       <Properties>
         <Property name="text" type="java.lang.String" value="Salvar"/>
       </Properties>
       <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="clienteAddSaveMouseClicked"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clienteAddSaveActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="clienteEnderecoAdd">
+    <Component class="javax.swing.JComboBox" name="jComboBoxModelo">
       <Properties>
-        <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clienteEnderecoAddActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxModeloActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="jComboBoxCliente">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxClienteActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="jComboBoxMarca2">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxMarca2ActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
