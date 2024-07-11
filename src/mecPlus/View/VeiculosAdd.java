@@ -5,6 +5,7 @@
 package mecPlus.View;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import mecPlus.Classes.ClienteClasse;
 import mecPlus.Classes.MarcasClasse;
 import mecPlus.Classes.ModelosClasse;
@@ -80,6 +81,11 @@ public class VeiculosAdd extends javax.swing.JFrame {
         jComboBoxMarca2 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         clienteEmailAddLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         clienteEmailAddLabel1.setText("Modelo:");
@@ -249,14 +255,60 @@ public class VeiculosAdd extends javax.swing.JFrame {
         String placa = placaVeiculoAdd.getText();
         String ano = anoVeiculoAdd.getText();
         
+         if(placaVeiculoAdd.getText().isEmpty()|| anoVeiculoAdd.getText().isEmpty()){
+            
+           JOptionPane.showMessageDialog(null, "Dados incompletos!");
+           return;
+            
+        }
+        try{
+            
+                VeiculoController veiculoController = new VeiculoController();
+                Boolean insert = veiculoController.insert( Integer.valueOf(selecaoMarca), Integer.valueOf(selecaoModelo),placa,ano, Integer.valueOf(selecaoCliente));
+      
+            
+            if(insert == false){
+                 JOptionPane.showMessageDialog(null, "Erro ao inserir os dados!");
+            }
+            
+            if(insert == true){
+             JOptionPane.showMessageDialog(null, "Veículo inserido com sucesso!");
+             this.limpaTela(evt);
+             
 
+ 
+            }
+            
+            
+        }catch(Exception e){
+            
+            return;
         
-        VeiculoController veiculoController = new VeiculoController();
-        veiculoController.insert( Integer.valueOf(selecaoMarca), Integer.valueOf(selecaoModelo),placa,ano, Integer.valueOf(selecaoCliente));
-
-
+    }
+        
+        
+  
     }//GEN-LAST:event_clienteAddSaveMouseClicked
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+         this.dispose();
+       VeiculoController  veiculoController = new VeiculoController();
+         
+         ArrayList<VeiculoClasse> carregaVeiculos = veiculoController.select();
+         
+        Veiculos veiculosTela =  new Veiculos(carregaVeiculos);
+        veiculosTela.setVisible(true);
+        
+    }//GEN-LAST:event_formWindowClosing
+
+        
+        private void limpaTela(java.awt.event.MouseEvent evt){
+        
+        placaVeiculoAdd.setText("");
+        anoVeiculoAdd.setText("");
+
+    }
     /**
      * @param args the command line arguments
      */

@@ -7,6 +7,7 @@ package mecPlus.View;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import mecPlus.Classes.ClienteClasse;
 import mecPlus.Classes.ModelosClasse;
 import mecPlus.Classes.VeiculoClasse;
 import mecPlus.Controller.ModelosController;
@@ -28,7 +29,7 @@ public class Veiculos extends javax.swing.JFrame {
         this.dispose();
 
         initComponents();
-
+        
         this.veiculos = veiculos;
 
         this.preencheTabela();
@@ -38,16 +39,18 @@ public class Veiculos extends javax.swing.JFrame {
     public boolean preencheTabela() {
         DefaultTableModel tableModel = (DefaultTableModel) jTableVeiculos.getModel();
         tableModel.setRowCount(0);
-        veiculos.forEach((veiculos) -> {
+        veiculos.forEach((veiculo) -> {
+
             tableModel.addRow(new Object[]{
-                veiculos.getId(),
-                veiculos.getMarcaDescricao(),
-                veiculos.getModeloDescricao(),
-                veiculos.getAno(),
-                veiculos.getPlaca(),
-                veiculos.getClienteNome()
+                veiculo.getId(),
+                veiculo.getMarcaDescricao(),
+                veiculo.getModeloDescricao(),
+                veiculo.getAno(),
+                veiculo.getPlaca(),
+                veiculo.getClienteNome()
 
             });
+            
 
         });
         jTableVeiculos.setModel(tableModel);
@@ -222,6 +225,7 @@ public class Veiculos extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
+        this.dispose();
      VeiculoClasse veiculos = new VeiculoClasse();
         VeiculosAdd veiculosAddTela = new VeiculosAdd(veiculos);
         veiculosAddTela.setVisible(true);
@@ -230,7 +234,31 @@ public class Veiculos extends javax.swing.JFrame {
 
     private void VeiculosButtonEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VeiculosButtonEditMouseClicked
         // TODO add your handling code here:
-        VeiculosEdit veiculosEditTela = new VeiculosEdit();
+        
+         if (jTableVeiculos.getSelectedRow() < 0) {
+            return;
+
+        }
+
+        Integer id = (Integer) jTableVeiculos.getModel().getValueAt(jTableVeiculos.getSelectedRow(), 0);
+        String marca = (String) jTableVeiculos.getModel().getValueAt(jTableVeiculos.getSelectedRow(), 1);
+        String modelo = (String) jTableVeiculos.getModel().getValueAt(jTableVeiculos.getSelectedRow(), 2);
+        String ano = (String) jTableVeiculos.getModel().getValueAt(jTableVeiculos.getSelectedRow(), 3);
+        String placa = (String) jTableVeiculos.getModel().getValueAt(jTableVeiculos.getSelectedRow(), 4);
+        String cliente = (String) jTableVeiculos.getModel().getValueAt(jTableVeiculos.getSelectedRow(), 5);
+       
+        VeiculoClasse veiculo = new VeiculoClasse();
+        
+        veiculo.setId(id);
+        veiculo.setMarcaDescricao(marca);
+        veiculo.setModeloDescricao(modelo);
+        veiculo.setAno(ano);
+        veiculo.setPlaca(placa);
+        veiculo.setClienteNome(cliente);
+   
+        this.dispose();
+        
+        VeiculosEdit veiculosEditTela = new VeiculosEdit(veiculo);
         veiculosEditTela.setVisible(true);
 
 

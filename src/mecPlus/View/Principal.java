@@ -14,6 +14,7 @@ import mecPlus.Controller.ClienteController;
 import mecPlus.Controller.MarcasController;
 import mecPlus.Controller.ModelosController;
 import mecPlus.Controller.UsuarioController;
+import mecPlus.Controller.VeiculoController;
 
 /**
  *
@@ -189,9 +190,11 @@ public class Principal extends javax.swing.JFrame {
 
     private void VeiculosMenuCallMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VeiculosMenuCallMouseClicked
         // TODO add your handling code here:
-        
-         ArrayList<VeiculoClasse> veiculos = new  ArrayList<VeiculoClasse>();
-         Veiculos veiculosTela =  new Veiculos(veiculos);
+         VeiculoController  veiculoController = new VeiculoController();
+         
+         ArrayList<VeiculoClasse> carregaVeiculos = veiculoController.select();
+         
+        Veiculos veiculosTela =  new Veiculos(carregaVeiculos);
         veiculosTela.setVisible(true);
     }//GEN-LAST:event_VeiculosMenuCallMouseClicked
 

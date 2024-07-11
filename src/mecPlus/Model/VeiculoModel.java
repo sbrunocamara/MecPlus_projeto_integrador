@@ -59,7 +59,7 @@ public class VeiculoModel {
     
     public ArrayList<VeiculoClasse> select(){
         
-        String sql = "select veiculos.*,marcas_veiculos.descricao as marcaDescricao, modelos_veiculos.descricao as modeloDescricao, clientes.nome as clienteNome from usuarios LEFT JOIN marcas_veiculos \n" +
+        String sql = "select veiculos.*,marcas_veiculos.descricao as marcaDescricao, modelos_veiculos.descricao as modeloDescricao, clientes.nome as clienteNome from veiculos LEFT JOIN marcas_veiculos \n" +
 "ON veiculos.marca = marcas_veiculos.id LEFT JOIN modelos_veiculos ON veiculos.modelo = modelos_veiculos.id LEFT JOIN clientes ON veiculos.cliente = clientes.id";
         
        PreparedStatement pStatement =  null;
@@ -75,8 +75,9 @@ public class VeiculoModel {
            
            if(veiculosSelect != null){
                veiculos =  new ArrayList<>();
-               
+
                while(veiculosSelect.next()){
+        
                    VeiculoClasse veiculosObjeto = new VeiculoClasse();
                    veiculosObjeto.setMarcaDescricao(veiculosSelect.getString("marcaDescricao"));
                    veiculosObjeto.setMarcaId(veiculosSelect.getInt("marca"));
@@ -84,8 +85,10 @@ public class VeiculoModel {
                    veiculosObjeto.setModeloId(veiculosSelect.getInt("modelo"));
                    veiculosObjeto.setPlaca(veiculosSelect.getString("placa"));
                    veiculosObjeto.setAno(veiculosSelect.getString("ano"));
-                   veiculosObjeto.setClienteNome(veiculosSelect.getString("ano"));
-                   veiculosObjeto.setClienteId(veiculosSelect.getInt("clienteNome"));
+                   veiculosObjeto.setClienteNome(veiculosSelect.getString("ClienteNome"));
+                   veiculosObjeto.setClienteId(veiculosSelect.getInt("cliente"));
+                   veiculosObjeto.setId(veiculosSelect.getInt("id"));
+                  
                    veiculos.add(veiculosObjeto);
                } 
            }
