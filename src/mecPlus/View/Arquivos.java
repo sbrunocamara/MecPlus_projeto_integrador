@@ -4,21 +4,58 @@
  */
 package mecPlus.View;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import mecPlus.Classes.ArquivoClasse;
+import mecPlus.Classes.MarcasClasse;
+import mecPlus.Controller.ArquivoController;
+import mecPlus.Controller.MarcasController;
+
 
 /**
  *
  * @author bsbru
  */
 public class Arquivos extends javax.swing.JFrame {
+    
+        public ArrayList<ArquivoClasse> veiculos;
 
     /**
      * Creates new form Clientes
      */
-    public Arquivos() {
+    public Arquivos(ArrayList<ArquivoClasse> veiculo) {
+        
+            this.dispose();
+
         initComponents();
+
+        this.veiculos = veiculo;
+
+        this.preencheTabela();
     }
 
+           public boolean preencheTabela() {
+        DefaultTableModel tableModel = (DefaultTableModel) jTableClientes.getModel();
+        tableModel.setRowCount(0);
+        veiculos.forEach((veiculo) -> {
+            tableModel.addRow(new Object[]{
+                veiculo.getId(),
+                veiculo.getDescricao(),
+                veiculo.getNome()
+
+            });
+
+        });
+        jTableClientes.setModel(tableModel);
+
+        return true;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -35,6 +72,7 @@ public class Arquivos extends javax.swing.JFrame {
         jTableClientes = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         ClientesButtonDelete = new javax.swing.JButton();
+        jToggleButton1 = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -56,18 +94,18 @@ public class Arquivos extends javax.swing.JFrame {
 
         jTableClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Id", "Descricao", "Formato", "Modelo Veiculo", "Marca Veiculo"
+                "Id", "Descricao", "Nome"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -117,6 +155,19 @@ public class Arquivos extends javax.swing.JFrame {
             }
         });
 
+        jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/fileOpen.png"))); // NOI18N
+        jToggleButton1.setText("Abrir");
+        jToggleButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jToggleButton1MouseClicked(evt);
+            }
+        });
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -133,6 +184,8 @@ public class Arquivos extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jToggleButton1)
+                                .addGap(18, 18, 18)
                                 .addComponent(jButton1)
                                 .addGap(18, 18, 18)
                                 .addComponent(ClientesButtonDelete))))
@@ -149,10 +202,11 @@ public class Arquivos extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(ClientesButtonDelete)
-                            .addComponent(jButton1))))
+                            .addComponent(jButton1)
+                            .addComponent(jToggleButton1))))
                 .addGap(18, 18, 18)
                 .addComponent(jPanelFornecedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -170,6 +224,8 @@ public class Arquivos extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         
+        this.dispose();
+        
         ArquivoAdd arquivoAddTela =  new ArquivoAdd();
         arquivoAddTela.setVisible(true);
        
@@ -177,11 +233,80 @@ public class Arquivos extends javax.swing.JFrame {
 
     private void ClientesButtonDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ClientesButtonDeleteMouseClicked
         // TODO add your handling code here:
+        if (jTableClientes.getSelectedRow() < 0) {
+            return;
+
+        }
+
+        Integer id = (Integer) jTableClientes.getModel().getValueAt(jTableClientes.getSelectedRow(), 0);
+        
+        ArquivoClasse arquivo = new ArquivoClasse();
+        arquivo.setId(id);
+        
    int dialogButton = JOptionPane.YES_NO_OPTION;
         int dialogResult = JOptionPane.showConfirmDialog(this, "Você realmente deseja excluir o item selecionado?", "Confirmação", dialogButton);
+        
+        
+           if (dialogResult == 0) {
+               ArquivoController arquivoController = new ArquivoController();
+            boolean remove = arquivoController.remove(arquivo);
+
+            if (remove == true) {
+                JOptionPane.showMessageDialog(null, "Item removido com sucesso!");
+                
+                String arquivoToDelete = FileSystems.getDefault().getPath("").toAbsolutePath()+ "/src/mecPlus/Files/"+(String)jTableClientes.getModel().getValueAt(jTableClientes.getSelectedRow(), 2);
+                File myFile = new File(arquivoToDelete);
+                myFile.delete();
+                
+                
+                this.dispose();
+                this.carregaTela();
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro ao remover o item!");
+            }
+
+        } else {
+
+        }
 
     }//GEN-LAST:event_ClientesButtonDeleteMouseClicked
 
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        // TODO add your handling code here:
+          if (jTableClientes.getSelectedRow() < 0) {
+            return;
+
+        }
+          
+          String arquivo = FileSystems.getDefault().getPath("").toAbsolutePath()+ "/src/mecPlus/Files/"+(String)jTableClientes.getModel().getValueAt(jTableClientes.getSelectedRow(), 2);
+          
+          this.abreArquivo(arquivo);
+
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+    private void jToggleButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jToggleButton1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jToggleButton1MouseClicked
+
+                public void carregaTela() {
+       ArquivoController arquivoController = new ArquivoController();
+        ArrayList<ArquivoClasse> carregaArquivos = arquivoController.select();
+        
+        
+        
+        Arquivos arquivosTela = new Arquivos(carregaArquivos);
+        arquivosTela.setVisible(true);;
+    }
+                
+      public void abreArquivo(String file){
+          
+          try{
+           File myFile = new File(file);
+           Desktop.getDesktop().open(myFile);
+          }catch( IOException e){
+          }
+      
+      }
     /**
      * @param args the command line arguments
      */
@@ -226,5 +351,6 @@ public class Arquivos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelFornecedores;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableClientes;
+    private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }

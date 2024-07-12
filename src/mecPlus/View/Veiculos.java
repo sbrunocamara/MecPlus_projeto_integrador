@@ -4,7 +4,19 @@
  */
 package mecPlus.View;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import mecPlus.Classes.ClienteClasse;
@@ -12,6 +24,13 @@ import mecPlus.Classes.ModelosClasse;
 import mecPlus.Classes.VeiculoClasse;
 import mecPlus.Controller.ModelosController;
 import mecPlus.Controller.VeiculoController;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.draw.DottedLineSeparator;
+
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
 
 /**
  *
@@ -75,6 +94,7 @@ public class Veiculos extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         VeiculosButtonEdit = new javax.swing.JButton();
         VeiculosButtonDelete = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -82,7 +102,7 @@ public class Veiculos extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGap(0, 117, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,6 +190,14 @@ public class Veiculos extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/reports.png"))); // NOI18N
+        jButton2.setText("Gerar relatório");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -177,7 +205,9 @@ public class Veiculos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(212, 212, 212)
+                        .addGap(80, 80, 80)
+                        .addComponent(jButton2)
+                        .addGap(27, 27, 27)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -199,17 +229,22 @@ public class Veiculos extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(72, 72, 72)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(VeiculosButtonEdit)
-                            .addComponent(VeiculosButtonDelete)
-                            .addComponent(jButton1))))
-                .addGap(18, 18, 18)
+                        .addGap(72, 72, 72)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(VeiculosButtonEdit)
+                                    .addComponent(VeiculosButtonDelete)
+                                    .addComponent(jButton1)))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanelFornecedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -223,6 +258,87 @@ public class Veiculos extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jTableVeiculosMouseClicked
 
+        public void geraRelatorio() {
+        
+
+        Date dataName = new Date();
+        String dataFormatadaFileName = new SimpleDateFormat("dd_MM_YY_HHmmss").format(dataName);
+        
+        Path path = FileSystems.getDefault().getPath("").toAbsolutePath();
+        
+        String fileName = "veiculos"+dataFormatadaFileName+".pdf";
+        
+        String dest = path+"/src/reports/"+fileName;
+        
+        File file = new File(dest);
+        file.getParentFile().mkdirs();
+
+        try {
+            
+        Date data = new Date();
+        String dataFormatada = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss").format(data);
+
+            Document document = new Document() ;
+            PdfWriter.getInstance(document, new FileOutputStream(dest));
+            document.open();
+
+             int totalItems = this.veiculos.size();
+                
+//            String dataString = data.toString();
+            Chunk linebreak = new Chunk(new DottedLineSeparator());
+
+ 
+            Font f=new Font(Font.FontFamily.COURIER,30.0f,Font.BOLD,BaseColor.BLACK);
+            Paragraph tittle = new Paragraph("Relatório Veículos",f);
+            tittle.setAlignment(Paragraph.ALIGN_CENTER);
+            document.add(tittle); 
+            document.add(linebreak);  
+  
+     
+            document.add(new Paragraph("Gerado em " + dataFormatada));
+            document.add(linebreak);
+            
+             document.add(new Paragraph("Total de items: " + totalItems));
+            document.add(linebreak);
+ 
+//            document.add(new Paragraph("Periodo:"));
+//            document.add(linebreak);
+            
+            
+            float columnWidth[] = {7, 32, 32, 27, 25};
+            PdfPTable table = new PdfPTable(columnWidth);
+            table.setWidthPercentage(100);
+
+            table.addCell("ID");
+            table.addCell("Marca");
+            table.addCell("Modelo");
+            table.addCell("ANO");
+            table.addCell("Placa");
+            
+
+            for (VeiculoClasse element : this.veiculos) {
+
+                table.addCell(element.getId().toString());
+                table.addCell(element.getMarcaDescricao());
+                table.addCell(element.getModeloDescricao());
+                table.addCell(element.getAno());
+                table.addCell(element.getPlaca());
+
+            }
+
+            document.add(table);
+            document.close();
+            
+           File myFile = new File(dest);
+           Desktop.getDesktop().open(myFile);
+
+        } catch (DocumentException de) {
+            System.err.println(de.getMessage());
+        } catch (FileNotFoundException e) {
+        }
+        catch(IOException e){
+        }
+    }
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         this.dispose();
@@ -301,6 +417,12 @@ public class Veiculos extends javax.swing.JFrame {
 
     }//GEN-LAST:event_VeiculosButtonDeleteMouseClicked
 
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        // TODO add your handling code here:
+
+        this.geraRelatorio();
+    }//GEN-LAST:event_jButton2MouseClicked
+
     public void carregaTela() {
         VeiculoController veiculoController = new VeiculoController();
         ArrayList<VeiculoClasse> carregaVeiculos = veiculoController.select();
@@ -349,6 +471,7 @@ public class Veiculos extends javax.swing.JFrame {
     private javax.swing.JButton VeiculosButtonDelete;
     private javax.swing.JButton VeiculosButtonEdit;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelFornecedores;

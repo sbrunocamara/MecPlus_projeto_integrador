@@ -5,11 +5,13 @@
 package mecPlus.View;
 
 import java.util.ArrayList;
+import mecPlus.Classes.ArquivoClasse;
 import mecPlus.Classes.ClienteClasse;
 import mecPlus.Classes.MarcasClasse;
 import mecPlus.Classes.ModelosClasse;
 import mecPlus.Classes.UsuarioClasse;
 import mecPlus.Classes.VeiculoClasse;
+import mecPlus.Controller.ArquivoController;
 import mecPlus.Controller.ClienteController;
 import mecPlus.Controller.MarcasController;
 import mecPlus.Controller.ModelosController;
@@ -228,8 +230,12 @@ public class Principal extends javax.swing.JFrame {
     private void jMenu7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu7MouseClicked
         // TODO add your handling code here:
         
+        ArquivoController arquivoController = new ArquivoController();
+        ArrayList<ArquivoClasse> carregaArquivos = arquivoController.select();
         
-        Arquivos arquivosTela = new Arquivos();
+        
+        
+        Arquivos arquivosTela = new Arquivos(carregaArquivos);
         arquivosTela.setVisible(true);
     }//GEN-LAST:event_jMenu7MouseClicked
 

@@ -5,13 +5,26 @@
 package mecPlus.View;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import mecPlus.Classes.ArquivoClasse;
+import mecPlus.Controller.ArquivoController;
+import mecPlus.Controller.MarcasController;
+import mecPlus.Controller.VeiculoController;
+import org.apache.commons.io.FileUtils;
 
 /**
  *
  * @author bsbru
  */
 public class ArquivoAdd extends javax.swing.JFrame {
+
+    public String filePath;
+    public String fileName;
 
     /**
      * Creates new form ClientesAdd
@@ -29,11 +42,7 @@ public class ArquivoAdd extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        clienteEmailAddLabel1 = new javax.swing.JLabel();
-        marcaArquivoAdd = new javax.swing.JFormattedTextField();
-        clienteTelefoneAddLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        modeloVeiculoArquivoAdd = new javax.swing.JFormattedTextField();
         clienteNomeAddLabel = new javax.swing.JLabel();
         descricaoArquivoAdd = new javax.swing.JFormattedTextField();
         clienteAddSave = new javax.swing.JButton();
@@ -42,31 +51,16 @@ public class ArquivoAdd extends javax.swing.JFrame {
         arquivoSelecionadoAdd = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        clienteEmailAddLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        clienteEmailAddLabel1.setText("Marca Veiculo:");
-
-        marcaArquivoAdd.setToolTipText("");
-        marcaArquivoAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                marcaArquivoAddActionPerformed(evt);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
-
-        clienteTelefoneAddLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        clienteTelefoneAddLabel3.setText("Modelo Veiculo:");
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/add.png"))); // NOI18N
         jLabel1.setText("Novo Arquivo");
-
-        modeloVeiculoArquivoAdd.setToolTipText("");
-        modeloVeiculoArquivoAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modeloVeiculoArquivoAddActionPerformed(evt);
-            }
-        });
 
         clienteNomeAddLabel.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         clienteNomeAddLabel.setText("Descrição");
@@ -79,6 +73,11 @@ public class ArquivoAdd extends javax.swing.JFrame {
         });
 
         clienteAddSave.setText("Salvar");
+        clienteAddSave.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clienteAddSaveMouseClicked(evt);
+            }
+        });
         clienteAddSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clienteAddSaveActionPerformed(evt);
@@ -111,38 +110,31 @@ public class ArquivoAdd extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(368, 368, 368)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(140, 140, 140)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(clienteTelefoneAddLabel4)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(arquivoSelecionadoAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(clienteNomeAddLabel)
-                                        .addComponent(clienteEmailAddLabel1)
-                                        .addComponent(clienteTelefoneAddLabel3))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(descricaoArquivoAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(marcaArquivoAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(modeloVeiculoArquivoAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(283, 283, 283)
-                                .addComponent(arquivoSelecaoAdd)
-                                .addGap(130, 130, 130)))))
-                .addContainerGap(218, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(clienteAddSave)
                 .addGap(380, 380, 380))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(clienteTelefoneAddLabel4)
+                            .addGap(18, 18, 18)
+                            .addComponent(arquivoSelecionadoAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGap(197, 197, 197)
+                            .addComponent(arquivoSelecaoAdd)
+                            .addGap(130, 130, 130)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(368, 368, 368)
+                            .addComponent(jLabel1))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(212, 212, 212)
+                            .addComponent(clienteNomeAddLabel)
+                            .addGap(18, 18, 18)
+                            .addComponent(descricaoArquivoAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(218, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,21 +147,13 @@ public class ArquivoAdd extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(descricaoArquivoAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(marcaArquivoAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(clienteEmailAddLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(clienteTelefoneAddLabel3)
-                    .addComponent(modeloVeiculoArquivoAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(clienteTelefoneAddLabel4)
                     .addComponent(arquivoSelecionadoAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(arquivoSelecaoAdd)
-                .addGap(67, 67, 67)
+                .addGap(177, 177, 177)
                 .addComponent(clienteAddSave)
                 .addContainerGap(93, Short.MAX_VALUE))
         );
@@ -178,22 +162,14 @@ public class ArquivoAdd extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void marcaArquivoAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_marcaArquivoAddActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_marcaArquivoAddActionPerformed
-
-    private void modeloVeiculoArquivoAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modeloVeiculoArquivoAddActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_modeloVeiculoArquivoAddActionPerformed
-
     private void descricaoArquivoAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descricaoArquivoAddActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_descricaoArquivoAddActionPerformed
 
     private void clienteAddSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clienteAddSaveActionPerformed
         // TODO add your handling code here:
-        
-     
+
+
     }//GEN-LAST:event_clienteAddSaveActionPerformed
 
     private void arquivoSelecaoAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arquivoSelecaoAddActionPerformed
@@ -206,16 +182,82 @@ public class ArquivoAdd extends javax.swing.JFrame {
 
     private void arquivoSelecaoAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_arquivoSelecaoAddMouseClicked
         // TODO add your handling code here:
-         JFileChooser file = new JFileChooser(); 
-          file.setFileSelectionMode(JFileChooser.FILES_ONLY);
-          int i= file.showSaveDialog(null);
-        if (i==1){
+        JFileChooser file = new JFileChooser();
+        file.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int i = file.showSaveDialog(null);
+        if (i == 1) {
             arquivoSelecionadoAdd.setText("");
         } else {
             File arquivo = file.getSelectedFile();
-           arquivoSelecionadoAdd.setText(arquivo.getPath());
+            arquivoSelecionadoAdd.setText(arquivo.getName());
+
+            this.fileName = arquivo.getName();
+            this.filePath = arquivo.getPath();
+
         }
     }//GEN-LAST:event_arquivoSelecaoAddMouseClicked
+
+    private void clienteAddSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clienteAddSaveMouseClicked
+        // TODO add your handling code here:
+
+        if (descricaoArquivoAdd.getText().isEmpty() || arquivoSelecionadoAdd.getText().isEmpty()) {
+
+            JOptionPane.showMessageDialog(null, "Dados incompletos!");
+            return;
+
+        }
+        try {
+
+            ArquivoController arquivoController = new ArquivoController();
+
+            Path path = FileSystems.getDefault().getPath("").toAbsolutePath();
+
+            File source = new File(this.filePath);
+            File dest = new File(path + "/src/mecPlus/Files/" + this.fileName);
+
+   
+            try {
+                FileUtils.copyFile(source, dest);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            boolean insert = arquivoController.insert(descricaoArquivoAdd.getText(), this.fileName);
+
+            if (insert == false) {
+                JOptionPane.showMessageDialog(null, "Erro ao inserir os dados!");
+            }
+
+            if (insert == true) {
+                JOptionPane.showMessageDialog(null, "Arquivo inserido com sucesso!");
+                this.limpaTela(evt);
+
+            }
+
+        } catch (Exception e) {
+
+            return;
+
+        }
+    }//GEN-LAST:event_clienteAddSaveMouseClicked
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        this.dispose();
+
+        ArquivoController arquivoController = new ArquivoController();
+        ArrayList<ArquivoClasse> carregaArquivos = arquivoController.select();
+
+        Arquivos arquivosTela = new Arquivos(carregaArquivos);
+        arquivosTela.setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
+
+    private void limpaTela(java.awt.event.MouseEvent evt) {
+
+        descricaoArquivoAdd.setText("");
+        arquivoSelecionadoAdd.setText("");
+
+    }
 
     /**
      * @param args the command line arguments
@@ -257,13 +299,9 @@ public class ArquivoAdd extends javax.swing.JFrame {
     private javax.swing.JButton arquivoSelecaoAdd;
     private javax.swing.JFormattedTextField arquivoSelecionadoAdd;
     private javax.swing.JButton clienteAddSave;
-    private javax.swing.JLabel clienteEmailAddLabel1;
     private javax.swing.JLabel clienteNomeAddLabel;
-    private javax.swing.JLabel clienteTelefoneAddLabel3;
     private javax.swing.JLabel clienteTelefoneAddLabel4;
     private javax.swing.JFormattedTextField descricaoArquivoAdd;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JFormattedTextField marcaArquivoAdd;
-    private javax.swing.JFormattedTextField modeloVeiculoArquivoAdd;
     // End of variables declaration//GEN-END:variables
 }

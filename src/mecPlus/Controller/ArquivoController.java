@@ -5,12 +5,10 @@
 package mecPlus.Controller;
 
 import java.util.ArrayList;
-import mecPlus.Classes.ClienteClasse;
-import mecPlus.Classes.UsuarioClasse;
-import mecPlus.Classes.VeiculoClasse;
-import mecPlus.Model.ClienteModel;
-import mecPlus.Model.UsuarioModel;
-import mecPlus.Model.VeiculoModel;
+import mecPlus.Classes.ArquivoClasse;
+
+import mecPlus.Model.ArquivoModel;
+
 
 /**
  *
@@ -18,23 +16,21 @@ import mecPlus.Model.VeiculoModel;
  */
 public class ArquivoController {
     
-        public boolean insert(Integer marca, Integer modelo, String placa, String ano,Integer cliente){
+        public boolean insert(String descricao, String nome){
         
 
         
-        VeiculoClasse veiculo = new VeiculoClasse();
+         ArquivoClasse arquivo = new ArquivoClasse();
         
-        veiculo.setMarcaId(marca);
-        veiculo.setModeloId(modelo);
-        veiculo.setPlaca(placa);
-        veiculo.setAno(ano);
-        veiculo.setClienteId(cliente);
+        arquivo.setDescricao(descricao);
+        arquivo.setNome(nome);
+
      
    
         
-        VeiculoModel veiculoModel =  new VeiculoModel();
+        ArquivoModel arquivoModel =  new ArquivoModel();
         
-        if(veiculoModel.insert(veiculo)){
+        if(arquivoModel.insert(arquivo)){
             return true;
         }else{
             return false;
@@ -42,35 +38,35 @@ public class ArquivoController {
         
     }
     
-    public  ArrayList<VeiculoClasse> select(){
+    public  ArrayList<ArquivoClasse> select(){
         
-          VeiculoModel veiculoModel =  new VeiculoModel();
-          ArrayList<VeiculoClasse> veiculos = null;
+          ArquivoModel arquivoModel =  new ArquivoModel();
+          ArrayList<ArquivoClasse> arquivos = null;
           
           try{
-             veiculos = veiculoModel.select();
+             arquivos = arquivoModel.select();
              
         
-            return veiculos;
+            return arquivos;
         
              
           }catch(Exception e){
 
           }
           
-         return veiculos;
+         return arquivos;
         
         
     }
     
-        public  VeiculoClasse update(VeiculoClasse veiculo){
+        public  ArquivoClasse update(ArquivoClasse arquivo){
         
-        VeiculoModel veiculoModel =  new VeiculoModel();
+            ArquivoModel arquivoModel =  new ArquivoModel();
             
           
           try{
               
-            VeiculoClasse update = veiculoModel.update(veiculo);
+              ArquivoClasse update = arquivoModel.update(arquivo);
              
         
             return update;
@@ -80,17 +76,17 @@ public class ArquivoController {
 
           }
           
-         return veiculo;
+         return arquivo;
         
         
     }
     
-    public boolean remove(VeiculoClasse veiculo){
+    public boolean remove(ArquivoClasse arquivo){
         
-        VeiculoModel veiculoModel =  new VeiculoModel();
+          ArquivoModel arquivoModel =  new ArquivoModel();
   
               
-            boolean remove = veiculoModel.remove(veiculo);
+            boolean remove = arquivoModel.remove(arquivo);
              
         
             return remove;
